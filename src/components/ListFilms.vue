@@ -22,7 +22,7 @@ export default {
     <div class="container">
       
       <ul>
-        <li v-for="film in store.filmBox" :key="film.id">
+        <li v-for="film in store.filmAndSerieBox" :key="film.id">
           <SingleFilm :filmObj="film"/>
         </li>
       </ul>

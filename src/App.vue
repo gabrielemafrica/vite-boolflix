@@ -19,23 +19,47 @@ export default {
     getFilms() {
 
       // compongo url
-      let searchURL = store.apriURLbase;
+      // let searchURL = store.apriURLbase;
+      let searchQuery;
+      let searchURLSerie = store.apriURLbase;
+      let searchURLFilm = store.apriURLbase;
+      let stringKey = `?${store.searchKey}=${store.key}`;
       //cerca film
-      searchURL += store.cercaMovie;
+      searchURLFilm += store.cercaMovie;
+      //cerca serie
+      searchURLSerie += store.cercaSerie;
       //chiave
-      searchURL += `?${store.searchKey}=${store.key}`;
-      //nome
-      if (store.searchText !== '') {
-        searchURL += `&${store.searchWhere}=${store.searchText}`;
-      }else{
-        searchURL += `&${store.searchWhere}=${store.searchTextBase}`;
-      }
+      searchURLFilm += stringKey;
+      searchURLSerie += stringKey;
 
+      //dove cerco e cosa cerco
+      if (store.searchText !== '') {
+        searchQuery = `&${store.searchWhere}=${store.searchText}`;
+      }else{
+        searchQuery = `&${store.searchWhere}=${store.searchTextBase}`;
+      }
+      console.log('cosa cerco', searchQuery);
+      //creo le due query string
+      searchURLFilm += searchQuery;
+      searchURLSerie += searchQuery;
+
+      //chamata per i film con funzione
+      store.filmAndSerieBox = [];
+      this.callAxios(searchURLFilm, 'filmBox', 'filmAndSerieBox');
+      this.callAxios(searchURLSerie, 'serieBox', 'filmAndSerieBox');
+    },
+    callAxios(searchURL, storangeBOX, storangeTotal) {
       axios.get(searchURL)
       .then(res => {
-        store.filmBox = res.data.results;
-        console.log(searchURL);
-        console.log(store.filmBox);
+        //individuo l'array esatto
+        store[storangeBOX] = res.data.results;
+
+        //aggiungo a raay totale
+        store[storangeTotal].push(...store[storangeBOX])
+        
+        console.log('url chamato =>', searchURL);
+        console.log(storangeBOX, store[storangeBOX]);
+        console.log(storangeTotal, store[storangeTotal]);
       })
       // errori
       .catch(error => {
@@ -47,6 +71,11 @@ export default {
   created() {
     this.getFilms();
   },
+  mounted() {
+    console.log('tutti', store.filmAndSerieBox);
+    console.log('film', store.filmBox);
+    console.log('serie', store.serieBox);
+  }
 }
 
 </script>

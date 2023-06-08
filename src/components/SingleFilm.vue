@@ -1,4 +1,5 @@
 <script>
+import { handleError } from 'vue';
 import { store } from '../store';
 
 export default {
@@ -18,9 +19,16 @@ export default {
       // lingua === 'en' ? lingua = 'us' : lingua = lingua;
       if (lingua === 'en') {
         lingua = 'us';
+      } else if (lingua === 'es') {
+        lingua = 'sp';
+      } else if (lingua === 'pt') {
+        lingua = 'po';
       }
       basicURL +=  `${lingua}${fineURL}`;
       return basicURL;
+    },
+    imageError(event) {
+      event.target.src = "https://sametozsuleyman.com.tr/wp-content/uploads/2019/06/en-guzel-404-sayfalar.jpg";
     }
   }
 }
@@ -28,20 +36,25 @@ export default {
 </script>
 
 <template>
+  <div>
+  <span>{{ filmObj.title ? 'questo è un FILM' : 'questa è una SERIE' }}</span>
+  </div>
   <span>Titolo</span>
   <h4>
     {{ filmObj.title }}
+    {{ filmObj.title ? filmObj.title : filmObj.name }}
   </h4>
   <span>Titolo Originale</span>
   <h4>
     {{ filmObj.original_title }}
+    {{ filmObj.original_title ? filmObj.original_title : filmObj.original_name}}
   </h4>
   <span>Lingua</span>
   <h4>
     {{ filmObj.original_language }}
   </h4>
   <div class="flag">
-   <img class="img-fluid mb-3" :src="flagURLmounter(store.flagURL, filmObj.original_language, store.flagIMG)" onerror="this.onerror=null;this.src='https://png.pngtree.com/thumb_back/fh260/background/20220509/pngtree-404-error-page-not-found-image_1345267.jpg'; " :alt="filmObj.original_language">
+   <img class="img-fluid mb-3" :src="flagURLmounter(store.flagURL, filmObj.original_language, store.flagIMG)" @error="imageError" :alt="filmObj.original_language">
   </div>
   
   <span>Voto</span>
@@ -58,5 +71,8 @@ export default {
 
 .flag{
   width: 100px;
+}
+span{
+  color: yellowgreen;
 }
 </style>

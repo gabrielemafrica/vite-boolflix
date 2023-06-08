@@ -13,6 +13,8 @@ export const store = reactive(
     searchText: "",
     searchTextBase: "film",
     filmBox: [],
+    serieBox: [],
+    filmAndSerieBox: [],
     flagURL: "https://www.worldometers.info/img/flags/",
     flagIMG: "-flag.gif",
     flagErrorURL: "https://png.pngtree.com/thumb_back/fh260/background/20220509/pngtree-404-error-page-not-found-image_1345267.jpg"
