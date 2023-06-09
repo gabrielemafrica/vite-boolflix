@@ -29,9 +29,14 @@ export default {
 @use '../styles/general.scss' ;
 header {
   background-color: $bg-color-element;
+  height: 60px;
+//  
   h1 {
+    font-size: 25px;
     text-transform: uppercase;
     color: $color-title;
+    line-height: 60px;
+    vertical-align: middle;
   }
 }
 </style>

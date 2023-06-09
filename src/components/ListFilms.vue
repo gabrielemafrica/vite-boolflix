@@ -21,11 +21,11 @@ export default {
   
     <div class="container">
       
-      <ul>
-        <li v-for="film in store.filmAndSerieBox" :key="film.id">
-          <SingleFilm :filmObj="film"/>
-        </li>
-      </ul>
+     
+      <div v-for="film in store.filmAndSerieBox" :key="film.id">
+        <SingleFilm :filmObj="film"/>
+      </div>
+      
 
     </div>
 

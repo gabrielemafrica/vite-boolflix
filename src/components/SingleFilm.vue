@@ -1,7 +1,46 @@
+<template>
+  <div class="scheda">
+    <div class="card" :class="flip ? 'flip' : ''" @mouseenter="flip = true" @mouseleave="flip = false">
+      <div class="front">
+        <div :class="filmObj.title ? 'etichetta film' : 'etichetta serie'">
+          <span>{{ filmObj.title ? 'FILM' : 'SERIE TV' }}</span>
+        </div>
+        <img class="img-fluid mb-3" :src="coverMounter(store.imageURL, store.imageW500 , filmObj.poster_path)" @error="imageError" :alt="filmObj.original_language">
+      </div>
+      <div class="back">
+        <ul>
+          <li>
+            <div class="flag">
+              <img class="img-fluid mb-3" :src="flagURLmounter(store.flagURL, filmObj.original_language, store.flagIMG)" @error="imageError" :alt="filmObj.original_language">
+            </div>
+          </li>
+          <li>
+            <span><strong>Titolo: </strong></span>
+            <span>{{ filmObj.title ? filmObj.title : filmObj.name }}</span>
+          </li>
+          <li>
+            <span><strong>Titolo originale: </strong></span>
+            <span>{{ filmObj.original_title ? filmObj.original_title : filmObj.original_name }}</span>
+          </li>
+          <li>
+            <span><strong>Voto: </strong></span>
+            <span v-for="i in votedStars" :key="i"><i class="bi bi-star-fill"></i></span>
+            <span v-for="i in 5 - votedStars" :key="i"><i class="bi bi-star"></i></span>
+          </li>
+          <li>
+            <span><strong>Overview: </strong></span>
+            <span>{{ filmObj.overview ? filmObj.overview : 'In attesa...' }}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</template>
+
 <script>
-// import { handleError } from 'vue';
 import { store } from '../store';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import errorImage from '../assets/img/404-image.jpg';
 
 export default {
   name: 'SingleFilm',
@@ -11,13 +50,13 @@ export default {
   data() {
     return {
       store,
+      flip: false,
     }
   },
   methods: {
     flagURLmounter(inizioUrl, linguaFilm, fineURL) {
       let basicURL = inizioUrl;
       let lingua = linguaFilm;
-      // lingua === 'en' ? lingua = 'us' : lingua = lingua;
       if (lingua === 'en') {
         lingua = 'us';
       } else if (lingua === 'es') {
@@ -25,11 +64,11 @@ export default {
       } else if (lingua === 'pt') {
         lingua = 'po';
       }
-      basicURL +=  `${lingua}${fineURL}`;
+      basicURL += `${lingua}${fineURL}`;
       return basicURL;
     },
     imageError(event) {
-      event.target.src = "https://sametozsuleyman.com.tr/wp-content/uploads/2019/06/en-guzel-404-sayfalar.jpg";
+      event.target.src = errorImage;
     },
     coverMounter(inizioUrl, dimensione, fineURL){
       let basicURL = inizioUrl;
@@ -40,62 +79,91 @@ export default {
   },
   computed: {
     votedStars(){
-      let votoDiviso = Math.ceil(parseFloat(this.filmObj.vote_average) / 2 );
-
+      let votoDiviso = Math.ceil(parseFloat(this.filmObj.vote_average) / 2);
       return votoDiviso;
     }
   },
 }
-
 </script>
 
-<template>
-  <div>
-    <span>{{ filmObj.title ? 'questo è un FILM' : 'questa è una SERIE' }}</span>
-  </div>
-  <span>Titolo</span>
-  <h4>
-    {{ filmObj.title }}
-    {{ filmObj.title ? filmObj.title : filmObj.name }}
-  </h4>
-  <span>Titolo Originale</span>
-  <h4>
-    {{ filmObj.original_title }}
-    {{ filmObj.original_title ? filmObj.original_title : filmObj.original_name}}
-  </h4>
-  <span>Lingua</span>
-  <h4>
-    {{ filmObj.original_language }}
-  </h4>
-  <div class="flag">
-   <img class="img-fluid mb-3" :src="flagURLmounter(store.flagURL, filmObj.original_language, store.flagIMG)" @error="imageError" :alt="filmObj.original_language">
-  </div>
-  <div class="cover">
-   <img class="img-fluid mb-3" :src="coverMounter(store.imageURL, store.imageW500 , filmObj.poster_path)" @error="imageError" :alt="filmObj.original_language">
-  </div>
-  
-  <span>Voto</span>
-  <h4>
-    <span v-for="i in votedStars">
-      <i class="bi bi-star-fill"></i>
-    </span>
-    <span v-for="i in 5 - votedStars">
-      <i class="bi bi-star"></i>
-    </span>
-  </h4>
-
-
-</template>
-
 <style scoped lang="scss">
+.scheda {
+  width: calc(100% / 7);
+  padding: 3px;
+  float: left;
+  height: 280px;
 
-@use '../styles/partials/variables' as *;
-@use '../styles/general.scss' ;
+  .card {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.5s;
+    transform-origin: center;
 
-.flag{
-  width: 100px;
-}
-span{
-  color: yellowgreen;
+    &.flip {
+      transform: rotateY(180deg);
+    }
+
+    .front,
+    .back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+    }
+
+    .front {
+      .etichetta {
+        position: absolute;
+        top: 5px;
+        left: 0;
+        background-color: coral;
+        padding: 5px 10px;
+        font-size: 12px;
+      }
+
+      .film {
+        background-color: olivedrab;
+      }
+
+      .serie {
+        background-color: orangered;
+      }
+    }
+
+    .back {
+      transform: rotateY(180deg);
+      overflow: auto;
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: darkslategray;
+      padding: 10px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      color: white;
+
+      ul {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+
+        li {
+          margin-bottom: 10px;
+
+          span {
+            font-weight: bold;
+            margin-right: 5px;
+          }
+        }
+      }
+    }
+  }
 }
 </style>

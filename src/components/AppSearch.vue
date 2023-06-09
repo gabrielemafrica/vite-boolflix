@@ -27,7 +27,16 @@ export default {
 @use '../styles/general.scss' ;
 
 div.input-group {
-  width: 30%;
+  width: 25%;
+  line-height: 60px;
+  vertical-align: middle;
+  margin: 15px 0;
+  .form-control, .btn-outline-secondary {
+    height: 30px;
+  }
+  .btn-outline-secondary{
+    line-height: 20px;
+  }
 }
 
 </style>
