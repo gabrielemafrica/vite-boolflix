@@ -97,6 +97,7 @@ export default {
   padding: 10px;
   float: left;
   height: 280px;
+  
 
   .card {
     position: relative;
@@ -105,6 +106,7 @@ export default {
     transform-style: preserve-3d;
     transition: transform 0.5s;
     transform-origin: center;
+    border: 3px solid white;
 
     &.flip {
       transform: rotateY(180deg);
