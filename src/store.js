@@ -11,7 +11,7 @@ export const store = reactive(
     key: 'e79a8c38f81ce11311a67bcfc17a1c9e',
     searchWhere: "query",
     searchText: "",
-    searchTextBase: "film",
+    searchTextBase: "disney",
     filmBox: [],
     serieBox: [],
     filmAndSerieBox: [],

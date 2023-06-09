@@ -37,6 +37,7 @@ export default {
         searchQuery = `&${store.searchWhere}=${store.searchText}`;
       }else{
         searchQuery = `&${store.searchWhere}=${store.searchTextBase}`;
+  
       }
       console.log('cosa cerco', searchQuery);
       //creo le due query string
