@@ -17,7 +17,11 @@ export const store = reactive(
     filmAndSerieBox: [],
     flagURL: "https://www.worldometers.info/img/flags/",
     flagIMG: "-flag.gif",
-    flagErrorURL: "https://png.pngtree.com/thumb_back/fh260/background/20220509/pngtree-404-error-page-not-found-image_1345267.jpg"
+    flagErrorURL: "https://png.pngtree.com/thumb_back/fh260/background/20220509/pngtree-404-error-page-not-found-image_1345267.jpg",
+    // immagini
+    imageURL: "https://image.tmdb.org/t/p/",
+    imageW500: "w500/",
+
 
   }
 )
