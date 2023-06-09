@@ -82,17 +82,31 @@ export default {
 </script>
 
 <template>
-  <AppHeader msg = "boolflix" @cercafilm="getFilms"/>
-  <main>
-    <ListFilms />
-  </main>
+  <div class="box-total">
+    <AppHeader msg = "boolflix" @cercafilm="getFilms"/>
+    <main>
+      <div class="container-app">
+        <ListFilms />
+      </div>
+    </main>
+  </div>
   
 </template>
 
 <style lang="scss">
 @use './styles/general.scss' as *;
-
-
-
+.box-total{
+  height: 100vh;
+  width: 100%;
+  main{
+    
+    .container-app{
+      width: 100%;
+      height: calc(100% - 60px);
+      overflow: auto;
+      overflow-x: hidden;
+    }
+  }
+}
 
 </style>

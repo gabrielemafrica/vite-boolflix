@@ -93,9 +93,9 @@ export default {
 @use '../styles/general.scss' as *;
 
 .scheda {
-  width: calc(100% / 7);
+  width: 200px;
   padding: 10px;
-  float: left;
+  // float: left;
   height: 280px;
   
 

@@ -30,6 +30,7 @@ export default {
 header {
   background-color: $bg-color-element;
   height: 60px;
+
 //  
   h1 {
     font-size: 25px;
